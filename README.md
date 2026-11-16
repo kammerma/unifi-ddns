@@ -1,8 +1,12 @@
 # Cloudflare DDNS for UniFi OS
 
-> **Retired on 16 November 2026.** This fork is no longer deployed. `home.kammermanns.ch` and `vpn.kammermanns.ch` are now kept current by UniFi Network's built-in Cloudflare DDNS (9.1.92 and later), with one entry per hostname and a scoped "Zone → DNS → Edit" token for `kammermanns.ch`. The deploy workflow has been removed.
+> **Retired on 16 November 2026.** This fork is no longer deployed. `home.kammermanns.ch` and `vpn.kammermanns.ch` are now kept current by UniFi Network's built-in Cloudflare DDNS (9.1.92 and later), with one entry per hostname and the scoped user token "UniFi DDNS" (Zone → DNS → Edit, `kammermanns.ch` only). The rest of this README describes the old worker and is kept for reference only.
 >
-> Why: from late 2024 every update failed. `updateRecord` built its URL from `record.zone_id`, a field Cloudflare no longer returns on DNS records (most likely cause; the worker discarded Cloudflare's error text). The active upstream is [`willswire/unifi-ddns`](https://github.com/willswire/unifi-ddns).
+> - **Why:** from late 2024 every update failed. `updateRecord` built its URL from `record.zone_id`, a field Cloudflare no longer returns on DNS records (most likely cause; the worker discarded Cloudflare's error text). The active upstream is [`willswire/unifi-ddns`](https://github.com/willswire/unifi-ddns).
+> - **Removed:** the worker `unifi-cloudflare-ddns`, the deploy workflow, the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, and the old user token "Edit zone DNS". The Global API key was rolled.
+> - **Behaviour to know:** UniFi updates a record when its WAN address changes (or on a longer cycle), not every five minutes, so a record edited by hand in Cloudflare is not corrected quickly. It may not keep `home`'s proxy status; that does not matter, since nothing at home serves `home` (Cloudflare answers 522).
+> - **Test of 16 November 2026:** `vpn` set to 192.0.2.1 in Cloudflare was restored to the home's address by UniFi.
+> - Full record: `synology_nas_containers`, `specs/2026-11-15-phase-16-openclaw-old-home-removed/validation.md`, "The Cloudflare audit".
 
 A Cloudflare Worker script that provides a UniFi-compatible DDNS API to dynamically update the IP address of a DNS A record.
 
