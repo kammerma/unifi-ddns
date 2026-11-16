@@ -1,5 +1,9 @@
 # Cloudflare DDNS for UniFi OS
 
+> **Retired on 16 November 2026.** This fork is no longer deployed. `home.kammermanns.ch` and `vpn.kammermanns.ch` are now kept current by UniFi Network's built-in Cloudflare DDNS (9.1.92 and later), with one entry per hostname and a scoped "Zone → DNS → Edit" token for `kammermanns.ch`. The deploy workflow has been removed.
+>
+> Why: from late 2024 every update failed. `updateRecord` built its URL from `record.zone_id`, a field Cloudflare no longer returns on DNS records (most likely cause; the worker discarded Cloudflare's error text). The active upstream is [`willswire/unifi-ddns`](https://github.com/willswire/unifi-ddns).
+
 A Cloudflare Worker script that provides a UniFi-compatible DDNS API to dynamically update the IP address of a DNS A record.
 
 ## Why?
